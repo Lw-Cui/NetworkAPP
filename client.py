@@ -19,5 +19,10 @@ def login(clientSocket):
 			return
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
-login(clientSocket)
+clientSocket.sendto('HEL', (serverName, serverPort))
+status, serverAddress = clientSocket.recvfrom(2048)
+if status == '100':
+	print 'Connected'
+	login(clientSocket)
+	
 clientSocket.close()
