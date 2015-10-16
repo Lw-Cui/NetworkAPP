@@ -9,20 +9,21 @@ serverPort = 12000
 
 def login(clientSocket):
 	while True:
-		ID = raw_input('input ID:')
+		ID = raw_input('')
 		clientSocket.sendto(ID, (serverName, serverPort))
 		status, serverAddress = clientSocket.recvfrom(2048)
-		if status == '400':
-			print 'ERROR CODE: ' + status + '. Retry:'
-		else:
-			print status
+		print status
+		if status[:4] == str(200):
 			return
+
+def process(clientSocket):
+	pass
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
 clientSocket.sendto('HEL', (serverName, serverPort))
 status, serverAddress = clientSocket.recvfrom(2048)
-if status == '100':
-	print 'Connected'
+if status[:4] == '200':
 	login(clientSocket)
+	process(clientSocket)
 	
 clientSocket.close()
