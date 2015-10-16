@@ -13,7 +13,13 @@ def login(serverSocket):
 			return
 
 def process(serverSocket):
-	pass
+	while True:
+		segment, clientAddress = serverSocket.recvfrom(2048)
+		reply = str(201) + ' Recv stop' if segment == '.' else str(200) + ' Recv'
+		serverSocket.sendto(reply, clientAddress)
+		print segment
+		if segment == '.':
+			return
 
 serverSocket = socket(AF_INET, SOCK_DGRAM)
 serverSocket.bind(('', serverPort))
